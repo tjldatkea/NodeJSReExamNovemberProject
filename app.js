@@ -147,19 +147,19 @@ require('dotenv').config()
 // // }, 4000);
 
 
-// // forsøg på at lave en side, hvor man kan oprette nye elementer i databasen
-// // og redigere disse
-// const express = require('express');
-// const { urlencoded } = require('body-parser');
+// forsøg på at lave en side, hvor man kan oprette nye elementer i databasen
+// og redigere disse
+const express = require('express');
+const { urlencoded } = require('body-parser');
 
-// const app = express()
+const app = express()
 
-// app.use(express.json())
-// app.use(express.urlencoded())
+app.use(express.json())
+app.use(express.urlencoded())
 
-// app.get('/', (req, res) => {
-//   res.send('<h1>Welcome to shopListServer</h1>')
-// })
+app.get('/', (req, res) => {
+  res.send('<h1>Welcome to shopListServer</h1>')
+})
 
 // app.get('/add', (req, res) => {
 
