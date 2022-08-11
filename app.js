@@ -1,8 +1,9 @@
 require('dotenv').config()
+console.log(process.env)
 
 const mongoose = require('mongoose')
 
-const uri = "mongodb+srv://tjldatkea:ZxuHCpyQfuvCZG7@clusterformongodbexerci.dao5cc1.mongodb.net/?retryWrites=true&w=majority";
+const uri = `mongodb+srv://${process.env.DATABASEUSERNAME}:${process.env.DATABASEPASSWORD}@clusterformongodbexerci.dao5cc1.mongodb.net/?retryWrites=true&w=majority`;
 
 mongoose.connect(uri)
   .then(() => console.log('Connected to MongoDb database'))
@@ -102,11 +103,11 @@ async function createItem(itemName) {
 
 
 async function getItems() {
-  
+
   const items = await Item
     .find({ group: 4 })
     .limit(10)
-    //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
+  //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
   console.log("getItems: " + items)
 }
 
@@ -132,7 +133,7 @@ async function getItems() {
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
-createItem('kursusFire')
+createItem('EtEllerAndet')
 
 setTimeout(() => {
   let resultat = getItems()
@@ -197,7 +198,7 @@ app.post('/hello', (req, res) => {
 
 
 
-const PORT = (process.env.PORT || 3000)
+const PORT = (process.env.PORT || 8080)
 app.listen(PORT, () => {
   console.log(`Db connected. Listening at port ${PORT}`)
 })
