@@ -133,7 +133,9 @@ async function getItems() {
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
-createItem('EtEllerAndetTo')
+//createItem('EtEllerAndetTo')
+
+
 
 // setTimeout(() => {
 //   let resultat = getItems()
