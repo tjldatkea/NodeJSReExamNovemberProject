@@ -17,36 +17,36 @@ mongoose.connect(uri)
 
 
 
-let Item;
-let haveRunOnce = false
+// let Item;
+// let haveRunOnce = false
 
 
-async function createItem(itemName) {
-  if (!(haveRunOnce)) {
-    const itemSchema = new mongoose.Schema({
-      itemName: String,
-      group: Number,
-      date: { type: Date, default: Date.now }
-    })
+// async function createItem(itemName) {
+//   if (!(haveRunOnce)) {
+//     const itemSchema = new mongoose.Schema({
+//       itemName: String,
+//       group: Number,
+//       date: { type: Date, default: Date.now }
+//     })
 
-    // class
-    Item = mongoose.model('Item', itemSchema)
-    haveRunOnce = true
-  }
-  // object
-  const item = new Item({
-    itemName: itemName,
-    group: 4
-  })
+//     // class
+//     Item = mongoose.model('Item', itemSchema)
+//     haveRunOnce = true
+//   }
+//   // object
+//   const item = new Item({
+//     itemName: itemName,
+//     group: 4
+//   })
 
-  const result = await item.save()
-  console.log("result udenfor timeout: " + result)
+//   const result = await item.save()
+//   console.log("result udenfor timeout: " + result)
 
-  // setTimeout(() => {
-  //   console.log("result i timeout" + result)
-  // }, 5000);
+//   // setTimeout(() => {
+//   //   console.log("result i timeout" + result)
+//   // }, 5000);
 
-} // slut på createItem funktionen
+// } // slut på createItem funktionen
 
 // // function createCourseWithCallback(courseName, callback) {
 // //   setTimeout(() => {
@@ -107,14 +107,14 @@ async function createItem(itemName) {
 
 
 
-async function getItems() {
+// async function getItems() {
 
-  const items = await Item
-    .find({ group: 4 })
-    .limit(10)
-  //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
-  console.log("getItems: " + items)
-}
+//   const items = await Item
+//     .find({ group: 4 })
+//     .limit(10)
+//   //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
+//   console.log("getItems: " + items)
+// }
 
 // // async function updateCourse(id) {
 
@@ -138,7 +138,7 @@ async function getItems() {
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
-createItem('EtEllerAndetTre')
+// createItem('EtEllerAndetTre')
 
 
 
@@ -169,11 +169,11 @@ app.get('/', (req, res) => {
   res.send('<h1>Welcome to shopListServer</h1>')
 })
 
-app.get('/add', (req, res) => {
+// app.get('/add', (req, res) => {
 
-  createItem('vareTo fra add endpointet')
-  res.send('<h1>Object added to database</h1>')
-})
+//   createItem('vareTo fra add endpointet')
+//   res.send('<h1>Object added to database</h1>')
+// })
 
 // app.post('/hello', (req, res) => {
 //   console.log('hello endpoint - post')
