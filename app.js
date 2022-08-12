@@ -17,36 +17,36 @@ mongoose.connect(uri)
 
 
 
-// let Item;
-// let haveRunOnce = false
+let Item;
+let haveRunOnce = false
 
 
-// async function createItem(itemName) {
-//   if (!(haveRunOnce)) {
-//     const itemSchema = new mongoose.Schema({
-//       itemName: String,
-//       group: Number,
-//       date: { type: Date, default: Date.now }
-//     })
+async function createItem(itemName) {
+  if (!(haveRunOnce)) {
+    const itemSchema = new mongoose.Schema({
+      itemName: String,
+      group: Number,
+      date: { type: Date, default: Date.now }
+    })
 
-//     // class
-//     Item = mongoose.model('Item', itemSchema)
-//     haveRunOnce = true
-//   }
-//   // object
-//   const item = new Item({
-//     itemName: itemName,
-//     group: 4
-//   })
+    // class
+    Item = mongoose.model('Item', itemSchema)
+    haveRunOnce = true
+  }
+  // object
+  const item = new Item({
+    itemName: itemName,
+    group: 4
+  })
 
-//   const result = await item.save()
-//   console.log("result udenfor timeout: " + result)
+  const result = await item.save()
+  console.log("result udenfor timeout: " + result)
 
-//   // setTimeout(() => {
-//   //   console.log("result i timeout" + result)
-//   // }, 5000);
+  // setTimeout(() => {
+  //   console.log("result i timeout" + result)
+  // }, 5000);
 
-// } // slut på createItem funktionen
+} // slut på createItem funktionen
 
 // // function createCourseWithCallback(courseName, callback) {
 // //   setTimeout(() => {
@@ -138,7 +138,7 @@ mongoose.connect(uri)
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
-// createItem('EtEllerAndetTre')
+ createItem('EtEllerAndetTre')
 
 
 
