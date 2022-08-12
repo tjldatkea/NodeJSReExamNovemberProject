@@ -161,11 +161,11 @@ app.get('/', (req, res) => {
   res.send('<h1>Welcome to shopListServer</h1>')
 })
 
-// app.get('/add', (req, res) => {
+app.get('/add', (req, res) => {
 
-//   createItem('vareEt fra add endpointet')
-//   res.send('<h1>Object added to database</h1>')
-// })
+  createItem('vareEt fra add endpointet')
+  res.send('<h1>Object added to database</h1>')
+})
 
 // app.post('/hello', (req, res) => {
 //   console.log('hello endpoint - post')
