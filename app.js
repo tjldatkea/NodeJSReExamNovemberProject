@@ -7,7 +7,12 @@ const uri = `mongodb+srv://${process.env.DATABASEUSERNAME}:${process.env.DATABAS
 
 mongoose.connect(uri)
   .then(() => console.log('Connected to MongoDb database'))
-  .catch(err => console.error('Could not connect to database'))
+  .catch(err => {
+    console.error('Could not connect to database', err)
+    console.error(err)
+    console.log('Could not connect to database')
+    console.log(err)
+  })
 
 
 
@@ -133,7 +138,7 @@ async function getItems() {
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
-//createItem('EtEllerAndetTo')
+createItem('EtEllerAndetTre')
 
 
 
