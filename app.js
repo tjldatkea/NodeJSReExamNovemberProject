@@ -164,6 +164,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded())
 
+
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to shopListServer</h1>')
 })
