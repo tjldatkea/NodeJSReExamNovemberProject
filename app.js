@@ -1,47 +1,47 @@
 require('dotenv').config()
 
 
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
-// const uri = `mongodb+srv://${process.env.DATABASEUSERNAME}:${process.env.DATABASEPASSWORD}@clusterformongodbexerci.dao5cc1.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DATABASEUSERNAME}:${process.env.DATABASEPASSWORD}@clusterformongodbexerci.dao5cc1.mongodb.net/?retryWrites=true&w=majority`;
 
-// mongoose.connect(uri)
-//   .then(() => console.log('Connected to MongoDb database'))
-//   .catch(err => console.error('Could not connect to database'))
-
-
+mongoose.connect(uri)
+  .then(() => console.log('Connected to MongoDb database'))
+  .catch(err => console.error('Could not connect to database'))
 
 
-// let Item;
-// let haveRunOnce = false
 
 
-// async function createItem(itemName) {
-//   if (!(haveRunOnce)) {
-//     const itemSchema = new mongoose.Schema({
-//       itemName: String,
-//       group: Number,
-//       date: { type: Date, default: Date.now }
-//     })
+let Item;
+let haveRunOnce = false
 
-//     // class
-//     Item = mongoose.model('Item', itemSchema)
-//     haveRunOnce = true
-//   }
-//   // object
-//   const item = new Item({
-//     itemName: itemName,
-//     group: 4
-//   })
 
-//   const result = await item.save()
-//   console.log("result udenfor timeout: " + result)
+async function createItem(itemName) {
+  if (!(haveRunOnce)) {
+    const itemSchema = new mongoose.Schema({
+      itemName: String,
+      group: Number,
+      date: { type: Date, default: Date.now }
+    })
 
-//   // setTimeout(() => {
-//   //   console.log("result i timeout" + result)
-//   // }, 5000);
+    // class
+    Item = mongoose.model('Item', itemSchema)
+    haveRunOnce = true
+  }
+  // object
+  const item = new Item({
+    itemName: itemName,
+    group: 4
+  })
 
-// } // slut på createItem funktionen
+  const result = await item.save()
+  console.log("result udenfor timeout: " + result)
+
+  // setTimeout(() => {
+  //   console.log("result i timeout" + result)
+  // }, 5000);
+
+} // slut på createItem funktionen
 
 // // function createCourseWithCallback(courseName, callback) {
 // //   setTimeout(() => {
@@ -102,14 +102,14 @@ require('dotenv').config()
 
 
 
-// async function getItems() {
+async function getItems() {
 
-//   const items = await Item
-//     .find({ group: 4 })
-//     .limit(10)
-//   //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
-//   console.log("getItems: " + items)
-// }
+  const items = await Item
+    .find({ group: 4 })
+    .limit(10)
+  //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
+  console.log("getItems: " + items)
+}
 
 // // async function updateCourse(id) {
 
@@ -132,8 +132,8 @@ require('dotenv').config()
 
 
 
-// // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
-// createItem('EtEllerAndet')
+// denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
+createItem('EtEllerAndetTo')
 
 // setTimeout(() => {
 //   let resultat = getItems()
@@ -200,7 +200,7 @@ app.get('/', (req, res) => {
 
 const PORT = (process.env.PORT || 8080)
 app.listen(PORT, () => {
-  console.log(`Db connected. Listening at port ${PORT}`)
+  console.log(`Listening at port ${PORT}`)
 })
 
 
