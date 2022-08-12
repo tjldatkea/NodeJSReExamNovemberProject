@@ -170,7 +170,7 @@ app.get('/', (req, res) => {
 
 app.get('/add', (req, res) => {
 
-  createItem('vareEt fra add endpointet')
+  createItem('vareTo fra add endpointet')
   res.send('<h1>Object added to database</h1>')
 })
 
