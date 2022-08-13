@@ -211,7 +211,7 @@ app.post('/deleteItem', async (req, res) => {
     res.redirect('/table')
   }
   else {
-    console("ikke noget i item")
+    console.log("ikke noget i item")
   }
   // setTimeout(() => {
   //   res.redirect('/table')
