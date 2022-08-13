@@ -184,13 +184,13 @@ app.get('/table', async (req, res) => {
 
   const form = `
   <form action="https://nodeshoplistservertjldatkea.herokuapp.com/helloTwo" method="POST">
-  <label for="fname">Item name:</label><br>
-  <input type="text" id="fname" name="fname" value="Varens navn"><br>
-  <label for="lname">Gruppe:</label><br>
-  <input type="text" id="lname" name="lname" value="Gruppe"><br><br>
+  <label for="itemNameEt">Item name:</label><br>
+  <input type="text" id="itemNameEt" name="itemNameEt" value="Mælk"><br>
+  <label for="groupNumber">Group:</label><br>
+  <input type="text" id="groupNumber" name="groupNumber" value="1"><br><br>
   <input type="submit" value="Submit">
 </form>`
-//<button>Make HTML to be scraped</button>
+  //<button>Make HTML to be scraped</button>
 
   let HTMLText = ""
   HTMLText += form
@@ -200,21 +200,23 @@ app.get('/table', async (req, res) => {
   HTMLText += "<th>group</th>"
   HTMLText += "<th>date</th>"
 
+  const numberOfGroups = 6 // find ud af hvor mange der skal være
   // husk at jeg egentlig ikke må bruge for løkker
-  for (let i = 0; i < items.length; i++) {
-    const element = items[i]
+  for (let j = 1; i < numberOfGroups; j++) {
+    const partOfItems = items.filter((obj) => obj.group === j)
+    for (let i = 0; i < partOfItems.length; i++) {
+      const element = partOfItems[i]
 
-    HTMLText += "<tr>"
-    HTMLText += `<td>${element.itemName}</td>`
-    HTMLText += `<td>${element.group}</td>`
-    HTMLText += `<td>${element.date}</td>`
-    HTMLText += "</tr>"
+      HTMLText += "<tr>"
+      HTMLText += `<td>${element.itemName}</td>`
+      HTMLText += `<td>${element.group}</td>`
+      HTMLText += `<td>${element.date}</td>`
+      HTMLText += "</tr>"
+    }
   }
 
-  HTMLText += "</tr></table>"
+  HTMLText += "</table>"
 
-  // res.send('<h1>table</h1>')
-  //res.send(items)
   res.send(HTMLText)
 
 })
@@ -227,9 +229,9 @@ app.get('/table', async (req, res) => {
 
 app.post('/helloTwo', (req, res) => {
   console.log('helloTwo endpoint - post')
-  console.log(req.body.fname)
-  console.log(req.body.lname)
-  createItem(req.body.fname, req.body.lname)
+  console.log(req.body.itemNameEt)
+  console.log(req.body.groupNumber)
+  createItem(req.body.itemNameEt, req.body.groupNumber)
   res.send(req.body)
 })
 
