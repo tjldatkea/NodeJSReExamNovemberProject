@@ -207,15 +207,16 @@ app.post('/deleteItem', async (req, res) => {
   console.log('deleteItem endpoint - post')
   console.log(req.body.itemId)
   const item = await removeOneItem(req.body.itemId)
-  if (item) {
-    res.redirect('/table')
-  }
-  else {
-    console.log("ikke noget i item")
-  }
-  // setTimeout(() => {
+  // if (item) { // virker ikke, den går til else, men sletter det valgte item, så gør async/await så noget her???? ****
   //   res.redirect('/table')
-  // }, delay)
+  // }
+  // else {
+  //   console.log("ikke noget i item")
+  // }
+
+  setTimeout(() => {
+    res.redirect('/table')
+  }, delay)
 
 })
 
