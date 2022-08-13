@@ -1,5 +1,7 @@
 require('dotenv').config()
+const path = require('path')
 
+app.use(express.static(path.join(__dirname, 'public')))
 
 const mongoose = require('mongoose')
 
@@ -138,7 +140,7 @@ async function createItem(itemName) {
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
- createItem('EtEllerAndetFire')
+createItem('EtEllerAndetFire')
 
 
 
@@ -174,6 +176,11 @@ app.get('/add', (req, res) => {
   createItem('vareFire fra add endpointet')
   res.send('<h1>Object added to database</h1>')
 })
+
+// app.get('/test', (req, res) => {
+
+//   res.send('<h1>Object added to database</h1>')
+// })
 
 app.post('/hello', (req, res) => {
   console.log('hello endpoint - post')
