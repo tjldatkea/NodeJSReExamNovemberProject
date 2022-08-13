@@ -229,8 +229,9 @@ app.get('/table', async (req, res) => {
       HTMLText += `<td>${element.itemName}</td>`
       HTMLText += `<td>${element.group}</td>`
       HTMLText += `<td>${element.date}</td>`
-      HTMLText += `<td>${element._id}</td>`
+      // HTMLText += `<td>${element._id}</td>` // begge virker
       HTMLText += `<td>${element.id}</td>`
+      HTMLText += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
       HTMLText += "</tr>"
     }
   }
