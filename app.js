@@ -207,7 +207,17 @@ app.get('/table', async (req, res) => {
   <input type="text" id="groupNumber" name="groupNumber" value="1"><br><br>
   <input type="submit" value="Submit">
 </form>`
-  //<button>Make HTML to be scraped</button>
+
+const formTwo = `
+<form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteGroup/5" method="Get">
+<input type="submit" value="Submit">
+</form>`
+
+// <label for="itemNameEt">Item name:</label><br>
+// <input type="text" id="itemNameEt" name="itemNameEt" value="Mælk"><br>
+// <label for="groupNumber">Group:</label><br>
+// <input type="text" id="groupNumber" name="groupNumber" value="1"><br><br></br>
+//<button>Make HTML to be scraped</button>
 
   let HTMLText = ""
   HTMLText += form
@@ -231,7 +241,8 @@ app.get('/table', async (req, res) => {
       HTMLText += `<td>${element.date}</td>`
       // HTMLText += `<td>${element._id}</td>` // begge virker
       HTMLText += `<td>${element.id}</td>`
-      HTMLText += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
+      HTMLText += `<td>${formTwo}</td>`
+      // HTMLText += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
       HTMLText += "</tr>"
     }
   }
