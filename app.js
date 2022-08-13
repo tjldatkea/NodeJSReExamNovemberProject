@@ -1,7 +1,6 @@
 require('dotenv').config()
 const path = require('path')
 
-app.use(express.static(path.join(__dirname, 'public')))
 
 const mongoose = require('mongoose')
 
@@ -165,6 +164,7 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded())
+app.use(express.static(path.join(__dirname, 'public')))
 
 
 app.get('/', (req, res) => {
