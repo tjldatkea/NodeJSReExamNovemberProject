@@ -203,14 +203,19 @@ app.get('/deleteGroup/:groupNumber', (req, res) => {
 // })
 
 // husk at post skal flyttes ned
-app.post('/deleteItem', (req, res) => {
+app.post('/deleteItem', async (req, res) => {
   console.log('deleteItem endpoint - post')
   console.log(req.body.itemId)
-  removeOneItem(req.body.itemId)
-
-  setTimeout(() => {
+  const item = await removeOneItem(req.body.itemId)
+  if (item) {
     res.redirect('/table')
-  }, delay)
+  }
+  else {
+    console("ikke noget i item")
+  }
+  // setTimeout(() => {
+  //   res.redirect('/table')
+  // }, delay)
 
 })
 
