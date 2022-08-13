@@ -22,7 +22,7 @@ let Item;
 let haveRunOnce = false
 
 
-async function createItem(itemName) {
+async function createItem(itemName, groupParam) {
   if (!(haveRunOnce)) {
     const itemSchema = new mongoose.Schema({
       itemName: String,
@@ -37,7 +37,7 @@ async function createItem(itemName) {
   // object
   const item = new Item({
     itemName: itemName,
-    group: 4
+    group: Number(groupParam)
   })
 
   const result = await item.save()
@@ -111,7 +111,7 @@ async function createItem(itemName) {
 async function getItems() {
 
   const items = await Item
-  .find() // w3: No parameters in the find() method gives you the same result as SELECT * in MySQL.
+    .find() // w3: No parameters in the find() method gives you the same result as SELECT * in MySQL.
   //   .find({ group: 4 })
   //   .limit(10)
   // //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
@@ -141,7 +141,7 @@ async function getItems() {
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
-createItem('EtEllerAndetFire')
+createItem('EtEllerAndetFire', 5)
 
 
 
@@ -175,27 +175,40 @@ app.get('/', (req, res) => {
 
 app.get('/add', (req, res) => {
 
-  createItem('vareFire fra add endpointet')
+  createItem('vareFire fra add endpointet', 5)
   res.send('<h1>Object added to database</h1>')
 })
 
-app.get('/table', async(req, res) => {
+app.get('/table', async (req, res) => {
   const items = await getItems() // returnerer en liste med objekter
-  
-  let HTMLText = "<table>"
+
+  const form = `
+  <form action="https://nodeshoplistservertjldatkea.herokuapp.com/helloTwo" method="POST">
+  <label for="fname">Item name:</label><br>
+  <input type="text" id="fname" name="fname" value="Varens navn"><br>
+  <label for="lname">Gruppe:</label><br>
+  <input type="text" id="lname" name="lname" value="Gruppe"><br><br>
+  <input type="submit" value="Submit">
+</form>`
+//<button>Make HTML to be scraped</button>
+
+  let HTMLText = ""
+  HTMLText += form
+  HTMLText += "<br>"
+  HTMLText += "<table>"
   HTMLText += "<th>itemName</th>"
   HTMLText += "<th>group</th>"
-  HTMLText += "<th>date</th>"  
+  HTMLText += "<th>date</th>"
 
   // husk at jeg egentlig ikke må bruge for løkker
   for (let i = 0; i < items.length; i++) {
     const element = items[i]
 
-    HTMLText += "<tr>"  
+    HTMLText += "<tr>"
     HTMLText += `<td>${element.itemName}</td>`
     HTMLText += `<td>${element.group}</td>`
     HTMLText += `<td>${element.date}</td>`
-    HTMLText += "</tr>"  
+    HTMLText += "</tr>"
   }
 
   HTMLText += "</tr></table>"
@@ -211,11 +224,21 @@ app.get('/table', async(req, res) => {
 //   res.send('<h1>Object added to database</h1>')
 // })
 
+
+app.post('/helloTwo', (req, res) => {
+  console.log('helloTwo endpoint - post')
+  console.log(req.body.fname)
+  console.log(req.body.lname)
+  createItem(req.body.fname, req.body.lname)
+  res.send(req.body)
+})
+
+
 app.post('/hello', (req, res) => {
   console.log('hello endpoint - post')
   console.log(req.body.fname)
   console.log(req.body.lname)
-  createItem(req.body.fname)
+  createItem(req.body.fname, 3)
   res.send(req.body)
 })
 
