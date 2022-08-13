@@ -156,6 +156,17 @@ createItem('EtEllerAndetFire', 5)
 // //   console.log(resultat)
 // // }, 4000);
 
+//async function removeItem(id) {
+async function removeManyItems(group) {
+  //const result = await Item.deleteMany({_id: id})
+  const result = await Item.deleteMany({group: 4})
+  //const course = await Item.findByIdAndRemove(id)
+  //console.log(course)
+}
+
+//removeCourse('62bf09a5871a37128405073c')
+
+
 
 // forsøg på at lave en side, hvor man kan oprette nye elementer i databasen
 // og redigere disse
@@ -172,6 +183,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to shopListServer</h1>')
 })
+
+app.get('/deleteGroup/:groupNumber', (req, res) => {
+  removeManyItems(req.params.groupNumber)
+  res.send(`<h1>Group number ${req.params.groupNumber} deleted</h1>`)
+})
+
 
 app.get('/add', (req, res) => {
 
