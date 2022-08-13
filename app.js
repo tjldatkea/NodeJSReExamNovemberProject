@@ -157,9 +157,9 @@ createItem('EtEllerAndetFire', 5)
 // // }, 4000);
 
 //async function removeItem(id) {
-async function removeManyItems(group) {
+async function removeManyItems(groupNumber) {
   //const result = await Item.deleteMany({_id: id})
-  const result = await Item.deleteMany({group: 4})
+  const result = await Item.deleteMany({group: groupNumber})
   //const course = await Item.findByIdAndRemove(id)
   //console.log(course)
 }
