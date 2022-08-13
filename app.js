@@ -108,14 +108,16 @@ async function createItem(itemName) {
 
 
 
-// async function getItems() {
+async function getItems() {
 
-//   const items = await Item
-//     .find({ group: 4 })
-//     .limit(10)
-//   //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
-//   console.log("getItems: " + items)
-// }
+  const items = await Item
+  .find() // w3: No parameters in the find() method gives you the same result as SELECT * in MySQL.
+  //   .find({ group: 4 })
+  //   .limit(10)
+  // //.sort({ itemName: 1 }) // 1 er ascending order og -1 er descending order
+  console.log("getItems: " + items)
+  return items
+}
 
 // // async function updateCourse(id) {
 
@@ -175,6 +177,13 @@ app.get('/add', (req, res) => {
 
   createItem('vareFire fra add endpointet')
   res.send('<h1>Object added to database</h1>')
+})
+
+app.get('/table', (req, res) => {
+  let HTMLText = ""
+  // res.send('<h1>table</h1>')
+  res.send(getItems)
+
 })
 
 // app.get('/test', (req, res) => {
