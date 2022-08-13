@@ -182,7 +182,7 @@ app.get('/add', (req, res) => {
 app.get('/table', (req, res) => {
   let HTMLText = ""
   // res.send('<h1>table</h1>')
-  res.send(getItems)
+  res.send(getItems())
 
 })
 
