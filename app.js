@@ -216,6 +216,7 @@ app.get('/table', async (req, res) => {
   HTMLText += "<th>itemName</th>"
   HTMLText += "<th>group</th>"
   HTMLText += "<th>date</th>"
+  HTMLText += "<th>id</th>"
 
   const numberOfGroups = 6 // find ud af hvor mange der skal være
   // husk at jeg egentlig ikke må bruge for løkker
@@ -228,6 +229,8 @@ app.get('/table', async (req, res) => {
       HTMLText += `<td>${element.itemName}</td>`
       HTMLText += `<td>${element.group}</td>`
       HTMLText += `<td>${element.date}</td>`
+      HTMLText += `<td>${element._id}</td>`
+      HTMLText += `<td>${element.id}</td>`
       HTMLText += "</tr>"
     }
   }
