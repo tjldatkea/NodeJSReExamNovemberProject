@@ -138,7 +138,7 @@ async function createItem(itemName) {
 
 
 // denne er nød til at være der, da der skal være mindst en kørsel af createCourse aht opsætning
- createItem('EtEllerAndetTre')
+ createItem('EtEllerAndetFire')
 
 
 
@@ -169,19 +169,19 @@ app.get('/', (req, res) => {
   res.send('<h1>Welcome to shopListServer</h1>')
 })
 
-// app.get('/add', (req, res) => {
+app.get('/add', (req, res) => {
 
-//   createItem('vareTo fra add endpointet')
-//   res.send('<h1>Object added to database</h1>')
-// })
+  createItem('vareFire fra add endpointet')
+  res.send('<h1>Object added to database</h1>')
+})
 
-// app.post('/hello', (req, res) => {
-//   console.log('hello endpoint - post')
-//   console.log(req.body.fname)
-//   console.log(req.body.lname)
-//   createItem(req.body.fname)
-//   res.send(req.body)
-// })
+app.post('/hello', (req, res) => {
+  console.log('hello endpoint - post')
+  console.log(req.body.fname)
+  console.log(req.body.lname)
+  createItem(req.body.fname)
+  res.send(req.body)
+})
 
 
 // // app.get('/addQS/:name', (req, res) => {
