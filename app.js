@@ -164,6 +164,13 @@ async function removeManyItems(groupNumber) {
   //console.log(course)
 }
 
+async function removeOneItem(id) {
+  //const result = await Item.deleteMany({_id: id})
+  //const result = await Item.deleteMany({group: groupNumber})
+  const item = await Item.findByIdAndRemove(id)
+  //console.log(course)
+}
+
 //removeCourse('62bf09a5871a37128405073c')
 
 
@@ -189,6 +196,27 @@ app.get('/deleteGroup/:groupNumber', (req, res) => {
   res.send(`<h1>Group number ${req.params.groupNumber} deleted</h1>`)
 })
 
+// app.get('/deleteItem/:itemId', (req, res) => {
+//   removeOneItem(req.params.itemId)
+//   res.send(`<h1>Item with id ${req.params.itemId} deleted</h1>`)
+// })
+
+// husk at post skal flyttes ned
+app.post('//deleteItem', (req, res) => {
+  console.log('deleteItem endpoint - post')
+  console.log(req.body.itemId)
+  //console.log(req.body.groupNumber)
+  removeOneItem(req.body.itemId)
+
+  //res.redirect('/table');  
+  //res.send(req.body)
+
+  setTimeout(() => {
+    res.redirect('/table');  
+  }, 9000);
+  
+})
+
 
 app.get('/add', (req, res) => {
 
@@ -208,9 +236,12 @@ app.get('/table', async (req, res) => {
   <input type="submit" value="Submit">
 </form>`
 
-const formTwo = `
-<form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteGroup/5" method="Get">
-<input type="submit" value="Submit">
+// deleteItem/:itemId skal det være sådan her eller som skrevet herunder???? *****
+// og om det skal være en GET eller POST metode
+const formTwoPartOne = `
+<form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteItem" method="POST"> 
+<input type="text" id="itemId" name="itemId" value="` // her skal value med id'et være
+const formTwoPartTwo = `"><br><br><input type="submit" value="Submit">
 </form>`
 
 // <label for="itemNameEt">Item name:</label><br>
@@ -241,7 +272,7 @@ const formTwo = `
       HTMLText += `<td>${element.date}</td>`
       // HTMLText += `<td>${element._id}</td>` // begge virker
       HTMLText += `<td>${element.id}</td>`
-      HTMLText += `<td>${formTwo}</td>`
+      HTMLText += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
       // HTMLText += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
       HTMLText += "</tr>"
     }
