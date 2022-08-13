@@ -159,7 +159,7 @@ createItem('EtEllerAndetFire', 5)
 //async function removeItem(id) {
 async function removeManyItems(groupNumber) {
   //const result = await Item.deleteMany({_id: id})
-  const result = await Item.deleteMany({group: groupNumber})
+  const result = await Item.deleteMany({ group: groupNumber })
   //const course = await Item.findByIdAndRemove(id)
   //console.log(course)
 }
@@ -181,6 +181,7 @@ const express = require('express');
 const { urlencoded } = require('body-parser');
 
 const app = express()
+const delay = 3000
 
 app.use(express.json())
 app.use(express.urlencoded())
@@ -205,16 +206,12 @@ app.get('/deleteGroup/:groupNumber', (req, res) => {
 app.post('/deleteItem', (req, res) => {
   console.log('deleteItem endpoint - post')
   console.log(req.body.itemId)
-  //console.log(req.body.groupNumber)
   removeOneItem(req.body.itemId)
 
-  //res.redirect('/table');  
-  //res.send(req.body)
-
   setTimeout(() => {
-    res.redirect('/table');  
-  }, 9000);
-  
+    res.redirect('/table')
+  }, delay)
+
 })
 
 
@@ -236,19 +233,15 @@ app.get('/table', async (req, res) => {
   <input type="submit" value="Submit">
 </form>`
 
-// deleteItem/:itemId skal det være sådan her eller som skrevet herunder???? *****
-// og om det skal være en GET eller POST metode
-const formTwoPartOne = `
+  // deleteItem/:itemId skal det være sådan her eller som skrevet herunder???? *****
+  // og om det skal være en GET eller POST metode
+  // id'et kunne også i stedet sættes ind deleteItem/:itemId og så er det i stedet en get metode det håndteres med
+  const formTwoPartOne = `
 <form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteItem" method="POST"> 
 <input type="text" id="itemId" name="itemId" value="` // her skal value med id'et være
-const formTwoPartTwo = `"><br><br><input type="submit" value="Submit">
+  const formTwoPartTwo = `"><br><br><input type="submit" value="Slet">
 </form>`
 
-// <label for="itemNameEt">Item name:</label><br>
-// <input type="text" id="itemNameEt" name="itemNameEt" value="Mælk"><br>
-// <label for="groupNumber">Group:</label><br>
-// <input type="text" id="groupNumber" name="groupNumber" value="1"><br><br></br>
-//<button>Make HTML to be scraped</button>
 
   let HTMLText = ""
   HTMLText += form
@@ -300,9 +293,9 @@ app.post('/helloTwo', (req, res) => {
   //res.send(req.body)
 
   setTimeout(() => {
-    res.redirect('/table');  
-  }, 9000);
-  
+    res.redirect('/table')
+  }, delay)
+
 })
 
 
