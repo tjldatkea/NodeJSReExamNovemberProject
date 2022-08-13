@@ -232,11 +232,13 @@ app.post('/helloTwo', (req, res) => {
   console.log(req.body.itemNameEt)
   console.log(req.body.groupNumber)
   createItem(req.body.itemNameEt, req.body.groupNumber)
-  res.send(req.body)
+
+  //res.redirect('/table');  
+  //res.send(req.body)
 
   setTimeout(() => {
     res.redirect('/table');  
-  }, 4000);
+  }, 9000);
   
 })
 
