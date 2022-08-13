@@ -202,7 +202,7 @@ app.get('/table', async (req, res) => {
 
   const numberOfGroups = 6 // find ud af hvor mange der skal være
   // husk at jeg egentlig ikke må bruge for løkker
-  for (let j = 1; i < numberOfGroups; j++) {
+  for (let j = 1; j < numberOfGroups; j++) {
     const partOfItems = items.filter((obj) => obj.group === j)
     for (let i = 0; i < partOfItems.length; i++) {
       const element = partOfItems[i]
