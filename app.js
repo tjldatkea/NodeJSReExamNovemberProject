@@ -202,7 +202,7 @@ app.get('/deleteGroup/:groupNumber', (req, res) => {
 // })
 
 // husk at post skal flyttes ned
-app.post('//deleteItem', (req, res) => {
+app.post('/deleteItem', (req, res) => {
   console.log('deleteItem endpoint - post')
   console.log(req.body.itemId)
   //console.log(req.body.groupNumber)
