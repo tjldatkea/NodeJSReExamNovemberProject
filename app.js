@@ -179,10 +179,12 @@ app.get('/add', (req, res) => {
   res.send('<h1>Object added to database</h1>')
 })
 
-app.get('/table', (req, res) => {
+app.get('/table', async(req, res) => {
+  const items = await getItems()
+  
   let HTMLText = ""
   // res.send('<h1>table</h1>')
-  res.send(getItems())
+  res.send(items)
 
 })
 
