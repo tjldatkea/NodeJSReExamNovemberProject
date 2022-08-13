@@ -180,11 +180,29 @@ app.get('/add', (req, res) => {
 })
 
 app.get('/table', async(req, res) => {
-  const items = await getItems()
+  const items = await getItems() // returnerer en liste med objekter
   
-  let HTMLText = ""
+  let HTMLText = "<table>"
+  HTMLText += "<th>itemName</th>"
+  HTMLText += "<th>group</th>"
+  HTMLText += "<th>date</th>"  
+
+  // husk at jeg egentlig ikke må bruge for løkker
+  for (let i = 0; i < items.length; i++) {
+    const element = items[i]
+
+    HTMLText += "<tr>"  
+    HTMLText += `<td>${element.itemName}</td>`
+    HTMLText += `<td>${element.group}</td>`
+    HTMLText += `<td>${element.date}</td>`
+    HTMLText += "</tr>"  
+  }
+
+  HTMLText += "</tr></table>"
+
   // res.send('<h1>table</h1>')
-  res.send(items)
+  //res.send(items)
+  res.send(HTMLText)
 
 })
 
