@@ -273,7 +273,7 @@ app.get('/table', async (req, res) => {
       HTMLText += "<tr>"
       HTMLText += `<td>${element.itemName}</td>`
       HTMLText += `<td>${element.group}</td>`
-      HTMLText += `<td>${element.date}</td>`
+      HTMLText += `<td>${element.date.getMonth()}</td>`
       // HTMLText += `<td>${element._id}</td>` // begge virker
       HTMLText += `<td>${element.id}</td>`
       HTMLText += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
@@ -282,9 +282,33 @@ app.get('/table', async (req, res) => {
     }
   //} midl
 
+
   HTMLText += "</table>"
 
-  res.send(HTMLText)
+  //res.send(HTMLText)
+
+
+  let resultatTeksten = "<table>"
+  //let HTMLTeksten = "<table>"
+  let HTMLTeksten = ""
+  items.map((element) => {
+    HTMLTeksten = ""
+    HTMLTeksten += "<tr>"
+    HTMLTeksten += `<td>${element.itemName}</td>`
+    HTMLTeksten += `<td>${element.group}</td>`
+    HTMLTeksten += `<td>${element.date.getMonth()}</td>`
+    // HTMLTeksten += `<td>${element._id}</td>` // begge virker
+    HTMLTeksten += `<td>${element.id}</td>`
+    HTMLTeksten += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
+    // HTMLTeksten += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
+    HTMLTeksten += "</tr>"
+    resultatTeksten += HTMLTeksten
+  })
+
+  resultatTeksten += "</table>"
+
+  res.send(resultatTeksten)
+
 
 })
 
