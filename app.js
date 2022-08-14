@@ -294,10 +294,10 @@ app.get('/table', async (req, res) => {
 })  // slut på app.get
 
 
-// app.get('/test', (req, res) => {
-
-//   res.send('<h1>Object added to database</h1>')
-// })
+app.get('/test', (req, res) => {
+  let talliste = [1,2,3,4,5]
+  res.send(talliste)
+})
 
 
 app.post('/helloTwo', (req, res) => {
