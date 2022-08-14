@@ -248,69 +248,51 @@ app.get('/table', async (req, res) => {
   const formTwoPartTwo = `"><br><br><input type="submit" value="Slet">
 </form>`
 
+  let HTMLForm = ""
+  HTMLForm += form
+  HTMLForm += "<br>"
+  HTMLForm += "<table>"
+  HTMLForm += "<th>itemName</th>"
+  HTMLForm += "<th>group</th>"
+  HTMLForm += "<th>date</th>"
+  HTMLForm += "<th>id</th>"
 
-  let HTMLText = ""
-  HTMLText += form
-  HTMLText += "<br>"
-  HTMLText += "<table>"
-  HTMLText += "<th>itemName</th>"
-  HTMLText += "<th>group</th>"
-  HTMLText += "<th>date</th>"
-  HTMLText += "<th>id</th>"
-
-  const numberOfGroups = 6 // find ud af hvor mange der skal være
-  // husk at jeg egentlig ikke må bruge for løkker
+  const numberOfGroups = 5 // find ud af hvor mange der skal være
   
-  // midl udkomm:
-  // for (let j = 1; j < numberOfGroups; j++) {
-  //   const partOfItems = items.filter((obj) => obj.group === j)
-  //   for (let i = 0; i < partOfItems.length; i++) {
-  //     const element = partOfItems[i]
+  // husk at jeg egentlig ikke må bruge for løkker, 
+  // men hvordan kommer jeg uden om den med en tabel for hver gruppe???
+  let allHTML = HTMLForm
+  let HTMLTable = ""
+  for (let j = 1; j <= numberOfGroups; j++) {
+    const partOfItems = items.filter((obj) => obj.group === j)
 
-  for (let i = 0; i < items.length; i++) {
-    const element = items[i]
+    HTMLTable = "<table>"
+    //let HTMLTableRow = "<table>"
+    let HTMLTableRow = ""
+    partOfItems.map((element) => {
+      HTMLTableRow = ""
+      HTMLTableRow += "<tr>"
+      HTMLTableRow += `<td>${element.itemName}</td>`
+      HTMLTableRow += `<td>${element.group}</td>`
+      HTMLTableRow += `<td>${element.date.getMonth()}</td>`
+      // HTMLTableRow += `<td>${element._id}</td>` // begge virker
+      HTMLTableRow += `<td>${element.id}</td>`
+      HTMLTableRow += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
+      // HTMLTableRow += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
+      HTMLTableRow += "</tr>"
+      HTMLTable += HTMLTableRow
+    })
 
-      HTMLText += "<tr>"
-      HTMLText += `<td>${element.itemName}</td>`
-      HTMLText += `<td>${element.group}</td>`
-      HTMLText += `<td>${element.date.getMonth()}</td>`
-      // HTMLText += `<td>${element._id}</td>` // begge virker
-      HTMLText += `<td>${element.id}</td>`
-      HTMLText += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
-      // HTMLText += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
-      HTMLText += "</tr>"
-    }
-  //} midl
+    HTMLTable += "</table>"
 
+    allHTML += HTMLTable
+  } // slut på numberOfGroups for løkke
 
-  HTMLText += "</table>"
-
-  //res.send(HTMLText)
-
-
-  let resultatTeksten = "<table>"
-  //let HTMLTeksten = "<table>"
-  let HTMLTeksten = ""
-  items.map((element) => {
-    HTMLTeksten = ""
-    HTMLTeksten += "<tr>"
-    HTMLTeksten += `<td>${element.itemName}</td>`
-    HTMLTeksten += `<td>${element.group}</td>`
-    HTMLTeksten += `<td>${element.date.getMonth()}</td>`
-    // HTMLTeksten += `<td>${element._id}</td>` // begge virker
-    HTMLTeksten += `<td>${element.id}</td>`
-    HTMLTeksten += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
-    // HTMLTeksten += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
-    HTMLTeksten += "</tr>"
-    resultatTeksten += HTMLTeksten
-  })
-
-  resultatTeksten += "</table>"
-
-  res.send(resultatTeksten)
+  res.send(HTMLTable)
 
 
-})
+})  // slut på app.get
+
 
 // app.get('/test', (req, res) => {
 
