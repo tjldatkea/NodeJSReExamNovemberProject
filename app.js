@@ -288,7 +288,7 @@ app.get('/table', async (req, res) => {
     allHTML += HTMLTable
   } // slut på numberOfGroups for løkke
 
-  res.send(HTMLTable)
+  res.send(allHTML)
 
 
 })  // slut på app.get
