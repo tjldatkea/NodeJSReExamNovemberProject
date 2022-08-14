@@ -260,10 +260,15 @@ app.get('/table', async (req, res) => {
 
   const numberOfGroups = 6 // find ud af hvor mange der skal være
   // husk at jeg egentlig ikke må bruge for løkker
-  for (let j = 1; j < numberOfGroups; j++) {
-    const partOfItems = items.filter((obj) => obj.group === j)
-    for (let i = 0; i < partOfItems.length; i++) {
-      const element = partOfItems[i]
+  
+  // midl udkomm:
+  // for (let j = 1; j < numberOfGroups; j++) {
+  //   const partOfItems = items.filter((obj) => obj.group === j)
+  //   for (let i = 0; i < partOfItems.length; i++) {
+  //     const element = partOfItems[i]
+
+  for (let i = 0; i < items.length; i++) {
+    const element = items[i]
 
       HTMLText += "<tr>"
       HTMLText += `<td>${element.itemName}</td>`
@@ -275,7 +280,7 @@ app.get('/table', async (req, res) => {
       // HTMLText += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
       HTMLText += "</tr>"
     }
-  }
+  //} midl
 
   HTMLText += "</table>"
 
