@@ -303,13 +303,13 @@ app.get('/table', async (req, res) => {
       // HTMLTableRow += `<td>${element.date}</td>`
       // HTMLTableRow += `<td>${element._id}</td>` // begge virker
       // HTMLTableRow += `<td>${element.id}</td>`
-      HTMLTableRow += "<table><tr>"
+      HTMLTableRow += "<td><table><tr>"
       for (let k = 1; k <= numberOfGroups; k++) {
         if (k != element.group) {
           HTMLTableRow += `<td>${makeFormForButtonToChangeItemsGroup(element.id, /*element.itemName, element.group,*/ "updateItem", k)}</td>`
         }
       }
-      HTMLTableRow += "</tr></table>"
+      HTMLTableRow += "</tr></table></td>"
       HTMLTableRow += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
       HTMLTableRow += "</tr>"
       HTMLTable += HTMLTableRow
