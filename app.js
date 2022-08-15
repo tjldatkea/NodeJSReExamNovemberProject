@@ -172,18 +172,18 @@ async function removeOneItem(id) {
 }
 
 //removeCourse('62bf09a5871a37128405073c')
-function makeFormForButtonToChangeItemsGroup(itemId,/* itemName, itemGroup, */endpoint, newItemGroup){
-  
+function makeFormForButtonToChangeItemsGroup(itemId,/* itemName, itemGroup, */endpoint, newItemGroup) {
+
   const formTemplate = `
   <form action="https://nodeshoplistservertjldatkea.herokuapp.com/${endpoint}" method="POST"> 
   <input type="text" id="itemIdFive" name="itemIdFive" style="display:none;" value="${itemId}">
   <input type="text" id="newItemGroup" name="newItemGroup" style="display:none;" value="${newItemGroup}">
   <input type="submit" value="Flyt til ${newItemGroup}">
   </form>`
-  
+
   // <input type="text"  style="display:none;" value="${itemName}">
   // <input type="text"  style="display:none;" value="${itemGroup}">
-  
+
   //id="itemId-${id}" name="itemId-${id}"
 
   return formTemplate
@@ -282,18 +282,18 @@ app.get('/table', async (req, res) => {
   // <form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteItem" method="POST"> 
   // <input type="text" id="itemId" name="itemId" value="${formValue}"><br><br><input type="submit" value="Slet">
   // </form>`
-  
+
   let allTablesAndForm = form
 
   const numberOfGroups = 5 // find ud af hvor mange der skal være
 
   // husk at jeg egentlig ikke må bruge for løkker. Se nodeExerciseOne for alternativ
-  
+
   let HTMLTable = ""
   for (let j = 1; j <= numberOfGroups; j++) {
     const partOfItems = items.filter((obj) => obj.group === j)
 
-    HTMLTable = "<table><th>itemName</th><th>group</th><th>button</th>"
+    HTMLTable = "<table><th>itemName</th><th>group</th><th>move buttons</th><th>delete button</th>"
     let HTMLTableRow = ""
     partOfItems.map((element) => {
       HTMLTableRow = ""
@@ -303,7 +303,11 @@ app.get('/table', async (req, res) => {
       // HTMLTableRow += `<td>${element.date}</td>`
       // HTMLTableRow += `<td>${element._id}</td>` // begge virker
       // HTMLTableRow += `<td>${element.id}</td>`
-      HTMLTableRow += `<td>${makeFormForButtonToChangeItemsGroup(element.id, /*element.itemName, element.group,*/ "updateItem", 5)}</td>`
+      HTMLTableRow = "<td>"
+      for (let k = 1; k <= numberOfGroups; k++) {
+        HTMLTableRow += `${makeFormForButtonToChangeItemsGroup(element.id, /*element.itemName, element.group,*/ "updateItem", k)}`
+      }
+      HTMLTableRow = "</td>"
       HTMLTableRow += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
       HTMLTableRow += "</tr>"
       HTMLTable += HTMLTableRow
