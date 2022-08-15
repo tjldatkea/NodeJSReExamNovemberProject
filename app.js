@@ -259,13 +259,13 @@ app.get('/table', async (req, res) => {
   HTMLForm += "<table>"
   HTMLForm += "<th>itemName</th>"
   HTMLForm += "<th>group</th>"
-  HTMLForm += "<th>date</th>"
+  // HTMLForm += "<th>date</th>"
   HTMLForm += "<th>button</th>"
 
   const numberOfGroups = 5 // find ud af hvor mange der skal være
 
   // husk at jeg egentlig ikke må bruge for løkker. Se nodeExerciseOne for alternativ
-  let allHTML = HTMLForm
+  let allTablesAndForm = HTMLForm
   let HTMLTable = ""
   for (let j = 1; j <= numberOfGroups; j++) {
     const partOfItems = items.filter((obj) => obj.group === j)
@@ -277,7 +277,7 @@ app.get('/table', async (req, res) => {
       HTMLTableRow += "<tr>"
       HTMLTableRow += `<td>${element.itemName}</td>`
       HTMLTableRow += `<td>${element.group}</td>`
-      HTMLTableRow += `<td>${element.date.getMonth()}</td>`
+      // HTMLTableRow += `<td>${element.date}</td>`
       // HTMLTableRow += `<td>${element._id}</td>` // begge virker
       // HTMLTableRow += `<td>${element.id}</td>`
       HTMLTableRow += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
@@ -287,8 +287,32 @@ app.get('/table', async (req, res) => {
 
     HTMLTable += "</table>"
 
-    allHTML += HTMLTable
+    allTablesAndForm += HTMLTable
   } // slut på numberOfGroups for løkke
+
+
+  let allHTML = `
+  <!DOCTYPE html>
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="./public/style.css">
+
+    <meta charset="utf-8" />
+    <meta name="wievport" content="width=device-width, initial-scale=1.0">
+    <title>Node Shop List</title>
+
+</head>
+
+<body>
+før
+${allTablesAndForm}
+efter
+    <script></script>
+</body>
+
+</html>
+  `
 
   res.send(allHTML)
 

@@ -1,0 +1,230 @@
+.intro {
+  background-color: yellow;
+}
+
+.tilbudsKnapKlassen{
+	  
+  height: 50px;
+  width: 100px;
+	background-color: lightgray;
+}
+
+#tilbudsStartKnap{
+	  
+  height: 50px;
+  width: 100px;
+	background-color: green;
+}
+
+#tilbudsSlutKnap{
+	  
+  height: 50px;
+  width: 100px;
+	background-color: red;
+}
+
+#tilbudsStartOgSlutKnap{
+	  
+  height: 50px;
+  width: 100px;
+	background: linear-gradient(-25deg, red 50%, green 50%);
+}
+
+
+
+
+
+body {
+  margin: auto;
+  margin-top: 1rem;
+  width: 95%;
+  border: 3px solid darkgray; 
+  padding: 10px;
+  background-color: rgb(93, 109, 126); /*lightslategray;*/
+}
+#center {
+  margin: auto;
+  width: 60%;
+
+  padding: 10px;
+  text-align: center;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  //width: 50%;
+  //height: 50%;
+}
+
+td,
+th {
+  border: 1px solid darkgray; /*#dddddd;*/
+  text-align: center;
+  //padding: 8px;
+  //height: 24px;
+  width: 100%;
+	background-color: lightslategray;
+}
+
+tr:nth-child(even) {
+  // background-color: #dddddd;
+}
+
+/*
+#table0 {
+  background-color: #ef2917;
+}
+
+#table1 {
+  background-color: #ef8a17;
+}
+
+#table2 {
+  background-color: #c6c013;
+}
+#table3 {
+  background-color: #008148;
+}
+#table4 {
+  background-color: #034732;
+}
+
+*/
+
+.btn-success {
+  background-color: #ade8f4;
+  color: black;
+	
+  height: 4em; /* var 3 */
+  width: 9em;  /* var 6 */
+	/*font-size: 100%*/
+}
+
+#button0 {
+  background-color: #ef2917;
+}
+#button1 {
+  background-color: #ef8a17;
+}
+
+#button2 {
+  background-color: #c6c013;
+}
+#button3 {
+  background-color: #008148;
+}
+#button4 {
+  background-color: #034732;
+}
+
+#table-headline0 {
+  color: #ef2917;
+}
+#table-headline1 {
+  color: #ef8a17;
+}
+
+#table-headline2 {
+  color: #c6c013;
+}
+#table-headline3 {
+  color: #008148;
+}
+#table-headline4 {
+  color: #034732;
+}
+
+.addedItemsTd {
+  background-color: lightslategray; /* rgb(93, 109, 126); */
+}
+
+#inputTd {
+  color: limegreen;
+}
+
+
+#cvs /*canvas-container */
+{
+  width: 100%; 
+  text-align:center;
+}
+
+canvas {
+  display: inline;
+}
+
+
+
+
+
+
+
+#shopButton1{ /* ser ikke ud til at virke */
+	color: red;
+}
+
+.buttontrue {  /* ser ikke ud til at virke */
+	color: green;
+}
+
+
+/* herfra er det til autocomplete */
+
+* { box-sizing: border-box; }
+body {
+  font: 16px Arial;
+}
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+}
+
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+/* Slut på autocomplete */
+
+
+}
