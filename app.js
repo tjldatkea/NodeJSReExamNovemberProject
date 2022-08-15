@@ -178,7 +178,7 @@ function makeFormForButtonToChangeItemsGroup(itemId,/* itemName, itemGroup, */en
   <form action="https://nodeshoplistservertjldatkea.herokuapp.com/${endpoint}" method="POST"> 
   <input type="text" id="itemIdFive" name="itemIdFive" style="display:none;" value="${itemId}">
   <input type="text" id="newItemGroup" name="newItemGroup" style="display:none;" value="${newItemGroup}">
-  <input type="submit" value="Flyt til ${group}">
+  <input type="submit" value="Flyt til ${newItemGroup}">
   </form>`
   
   // <input type="text"  style="display:none;" value="${itemName}">
