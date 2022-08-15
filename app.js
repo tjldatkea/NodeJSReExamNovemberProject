@@ -244,10 +244,15 @@ app.get('/table', async (req, res) => {
   // id'et kunne også i stedet sættes ind deleteItem/:itemId og så er det i stedet en get metode det håndteres med
   const formTwoPartOne = `
 <form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteItem" method="POST"> 
-<input type="text" id="itemId" name="itemId" value="` // her skal value med id'et være
-  const formTwoPartTwo = `"><br><br><input type="submit" value="Slet">
+<input type="text" id="itemId" name="itemId" style="display:none;" value="` // her skal value med id'et være
+  const formTwoPartTwo = `"><input type="submit" value="Slet">
 </form>`
-
+  // let formValue = ""
+  // const formTwo = `
+  // <form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteItem" method="POST"> 
+  // <input type="text" id="itemId" name="itemId" value="${formValue}"><br><br><input type="submit" value="Slet">
+  // </form>`
+  //style.display = "none"
   let HTMLForm = ""
   HTMLForm += form
   HTMLForm += "<br>"
@@ -255,19 +260,17 @@ app.get('/table', async (req, res) => {
   HTMLForm += "<th>itemName</th>"
   HTMLForm += "<th>group</th>"
   HTMLForm += "<th>date</th>"
-  HTMLForm += "<th>id</th>"
+  HTMLForm += "<th>button</th>"
 
   const numberOfGroups = 5 // find ud af hvor mange der skal være
-  
-  // husk at jeg egentlig ikke må bruge for løkker, 
-  // men hvordan kommer jeg uden om den med en tabel for hver gruppe???
+
+  // husk at jeg egentlig ikke må bruge for løkker. Se nodeExerciseOne for alternativ
   let allHTML = HTMLForm
   let HTMLTable = ""
   for (let j = 1; j <= numberOfGroups; j++) {
     const partOfItems = items.filter((obj) => obj.group === j)
 
     HTMLTable = "<table>"
-    //let HTMLTableRow = "<table>"
     let HTMLTableRow = ""
     partOfItems.map((element) => {
       HTMLTableRow = ""
@@ -276,9 +279,8 @@ app.get('/table', async (req, res) => {
       HTMLTableRow += `<td>${element.group}</td>`
       HTMLTableRow += `<td>${element.date.getMonth()}</td>`
       // HTMLTableRow += `<td>${element._id}</td>` // begge virker
-      HTMLTableRow += `<td>${element.id}</td>`
+      // HTMLTableRow += `<td>${element.id}</td>`
       HTMLTableRow += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
-      // HTMLTableRow += `<td><button type="button" onclick="() => {console.log('test')})">Click Me!</button></td>`
       HTMLTableRow += "</tr>"
       HTMLTable += HTMLTableRow
     })
@@ -295,7 +297,7 @@ app.get('/table', async (req, res) => {
 
 
 app.get('/test', (req, res) => {
-  let talliste = [1,2,3,4,5]
+  let talliste = [1, 2, 3, 4, 5]
   res.send(talliste)
 })
 
