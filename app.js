@@ -296,23 +296,52 @@ app.get('/table', async (req, res) => {
 <html>
 
 <head>
-    <link type="text/css" rel="stylesheet" href="./public/style.css">
+    <link type="text/css" rel="stylesheet" href="./style.css">
 
     <meta charset="utf-8" />
     <meta name="wievport" content="width=device-width, initial-scale=1.0">
     <title>Node Shop List</title>
-
+    <style>
+    body {
+      margin: auto;
+      margin-top: 1rem;
+      width: 95%;
+      border: 3px solid darkgray; 
+      padding: 10px;
+      background-color: rgb(93, 109, 126); /*lightslategray;*/
+    }
+    #center {
+      margin: auto;
+      width: 60%;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+    }
+    
+    td,
+    th {
+      border: 1px solid darkgray;
+      text-align: center;
+      width: 100%;
+      background-color: lightslategray;
+    }
+    
+    </style>
 </head>
 
 <body>
-før
 ${allTablesAndForm}
-efter
     <script></script>
 </body>
 
 </html>
   `
+  // Prøv at få det ovenstående ud i en seperat fil og importér det eller kald en metode med det der skal ind i HTML'en som argument
+  // href="./public/style.css" blev blokeret pga forkert MIME type???? ***
 
   res.send(allHTML)
 
