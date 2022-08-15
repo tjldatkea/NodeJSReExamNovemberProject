@@ -119,24 +119,24 @@ async function getItems() {
   return items
 }
 
-// // async function updateCourse(id) {
+async function updateItem(id, /*name, */groupNumber) {
 
-// //   // Approach: Update first
-// //   // Update directly
-// //   //const result = await Course.update({_id: id}, {
-// //   // Optionally: get the updated document
-// //   const course = await Course.findByIdAndUpdate(id, {
-// //     $set: {
-// //       author: 'Jason',
-// //       isPublished: false
-// //     }
-// //   }, { new: true }) // <-- uden den sidste får man kurset inden det blev ændret
-// //   //console.log(result)
-// //   console.log("updated course: " + course)
+  // Approach: Update first
+  // Update directly
+  //const result = await Course.update({_id: id}, {
+  // Optionally: get the updated document
+  const item = await Item.findByIdAndUpdate(id, {
+    $set: {
+      // itemName: name,
+      group: groupNumber
+    }
+  }, { new: true }) // <-- uden den sidste får man kurset inden det blev ændret
 
-// //   // i video 18 af CRUD Operations Using Mongoose kan ses en liste og link til de forskellige update funktioner man kan bruge med Mongo
+  console.log("updated item: " + item)
 
-// // }
+  // i video 18 af CRUD Operations Using Mongoose kan ses en liste og link til de forskellige update funktioner man kan bruge med Mongo
+
+}
 
 
 
@@ -172,6 +172,22 @@ async function removeOneItem(id) {
 }
 
 //removeCourse('62bf09a5871a37128405073c')
+function makeFormForButtonToChangeItemsGroup(itemId,/* itemName, itemGroup, */endpoint, newItemGroup){
+  
+  const formTemplate = `
+  <form action="https://nodeshoplistservertjldatkea.herokuapp.com/${endpoint}" method="POST"> 
+  <input type="text" id="itemIdFive" name="itemIdFive" style="display:none;" value="${itemId}">
+  <input type="text" id="newItemGroup" name="newItemGroup" style="display:none;" value="${newItemGroup}">
+  <input type="submit" value="Flyt til ${group}">
+  </form>`
+  
+  // <input type="text"  style="display:none;" value="${itemName}">
+  // <input type="text"  style="display:none;" value="${itemGroup}">
+  
+  //id="itemId-${id}" name="itemId-${id}"
+
+  return formTemplate
+}
 
 
 
@@ -201,6 +217,19 @@ app.get('/deleteGroup/:groupNumber', (req, res) => {
 //   removeOneItem(req.params.itemId)
 //   res.send(`<h1>Item with id ${req.params.itemId} deleted</h1>`)
 // })
+
+
+// husk at post skal flyttes ned
+app.post('/updateItem', async (req, res) => {
+  console.log('updateItem endpoint - post')
+  console.log(req.body.itemId)
+  const item = await updateItem(req.body.itemIdFive,/* req.body.itemName, */req.body.newItemGroup)
+
+  setTimeout(() => {
+    res.redirect('/table')
+  }, delay)
+
+})
 
 // husk at post skal flyttes ned
 app.post('/deleteItem', async (req, res) => {
@@ -236,8 +265,9 @@ app.get('/table', async (req, res) => {
   <input type="text" id="itemNameEt" name="itemNameEt" value="Mælk"><br>
   <label for="groupNumber">Group:</label><br>
   <input type="text" id="groupNumber" name="groupNumber" value="1"><br><br>
-  <input type="submit" value="Submit">
-</form>`
+  <input type="submit" value="Add Item">
+</form>
+<br>`
 
   // deleteItem/:itemId skal det være sådan her eller som skrevet herunder???? *****
   // og om det skal være en GET eller POST metode
@@ -245,32 +275,25 @@ app.get('/table', async (req, res) => {
   const formTwoPartOne = `
 <form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteItem" method="POST"> 
 <input type="text" id="itemId" name="itemId" style="display:none;" value="` // her skal value med id'et være
-  const formTwoPartTwo = `"><input type="submit" value="Slet">
+  const formTwoPartTwo = `"><input type="submit" value="Delete">
 </form>`
   // let formValue = ""
   // const formTwo = `
   // <form action="https://nodeshoplistservertjldatkea.herokuapp.com/deleteItem" method="POST"> 
   // <input type="text" id="itemId" name="itemId" value="${formValue}"><br><br><input type="submit" value="Slet">
   // </form>`
-  //style.display = "none"
-  let HTMLForm = ""
-  HTMLForm += form
-  HTMLForm += "<br>"
-  HTMLForm += "<table>"
-  HTMLForm += "<th>itemName</th>"
-  HTMLForm += "<th>group</th>"
-  // HTMLForm += "<th>date</th>"
-  HTMLForm += "<th>button</th>"
+  
+  let allTablesAndForm = form
 
   const numberOfGroups = 5 // find ud af hvor mange der skal være
 
   // husk at jeg egentlig ikke må bruge for løkker. Se nodeExerciseOne for alternativ
-  let allTablesAndForm = HTMLForm
+  
   let HTMLTable = ""
   for (let j = 1; j <= numberOfGroups; j++) {
     const partOfItems = items.filter((obj) => obj.group === j)
 
-    HTMLTable = "<table>"
+    HTMLTable = "<table><th>itemName</th><th>group</th><th>button</th>"
     let HTMLTableRow = ""
     partOfItems.map((element) => {
       HTMLTableRow = ""
@@ -280,6 +303,7 @@ app.get('/table', async (req, res) => {
       // HTMLTableRow += `<td>${element.date}</td>`
       // HTMLTableRow += `<td>${element._id}</td>` // begge virker
       // HTMLTableRow += `<td>${element.id}</td>`
+      HTMLTableRow += `<td>${makeFormForButtonToChangeItemsGroup(element.id, element.itemName, element.group, "updateItem", 5)}</td>`
       HTMLTableRow += `<td>${formTwoPartOne}${element.id}${formTwoPartTwo}</td>`
       HTMLTableRow += "</tr>"
       HTMLTable += HTMLTableRow
@@ -301,36 +325,7 @@ app.get('/table', async (req, res) => {
     <meta charset="utf-8" />
     <meta name="wievport" content="width=device-width, initial-scale=1.0">
     <title>Node Shop List</title>
-    <style>
-    body {
-      margin: auto;
-      margin-top: 1rem;
-      width: 95%;
-      border: 3px solid darkgray; 
-      padding: 10px;
-      background-color: rgb(93, 109, 126); /*lightslategray;*/
-    }
-    #center {
-      margin: auto;
-      width: 60%;
-      padding: 10px;
-      text-align: center;
-    }
     
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-    }
-    
-    td,
-    th {
-      border: 1px solid darkgray;
-      text-align: center;
-      width: 100%;
-      background-color: lightslategray;
-    }
-    
-    </style>
 </head>
 
 <body>

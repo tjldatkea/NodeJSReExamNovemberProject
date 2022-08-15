@@ -23,3 +23,35 @@
   // HTMLForm += "</table>"
 
   //res.send(HTMLForm)
+
+
+  <style>
+    body {
+      margin: auto;
+      margin-top: 1rem;
+      width: 95%;
+      border: 3px solid darkgray; 
+      padding: 10px;
+      background-color: rgb(93, 109, 126); /*lightslategray;*/
+    }
+    #center {
+      margin: auto;
+      width: 60%;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+    }
+    
+    td,
+    th {
+      border: 1px solid darkgray;
+      text-align: center;
+      width: 100%;
+      background-color: lightslategray;
+    }
+    
+    </style>
