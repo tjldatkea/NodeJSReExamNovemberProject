@@ -194,7 +194,7 @@ function makeFormForButtonToChangeItemsGroup(itemId,/* itemName, itemGroup, */en
 // forsøg på at lave en side, hvor man kan oprette nye elementer i databasen
 // og redigere disse
 
-app.use(helmet());
+
 const express = require('express');
 const helmet = require("helmet");
 const { urlencoded } = require('body-parser');
