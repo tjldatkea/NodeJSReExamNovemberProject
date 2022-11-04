@@ -1,4 +1,6 @@
-    Status her: det nye kursus med navnet fra endpointet, muligvis vha querystring,
+TESTING
+
+Status her: det nye kursus med navnet fra endpointet, muligvis vha querystring,
   bliver gemt i db, men jeg får ikke objectet retur, men et promise pending,
     dette løser jeg midl med en setTimeout og får så et promise med det nye kursus objekt
     men ved brug af setTimeout er jeg så tilbage til start ? og får jeg så noget gavn af
