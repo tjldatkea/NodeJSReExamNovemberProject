@@ -1,12 +1,9 @@
-# Node build artifacts
+# Node
 node_modules
-npm-debug.log
 
-# Local development
+# Local development environment
 *.env
-*.dev
-.DS_Store
 
-# Docker
-Dockerfile
-docker-compose.yml
+# My notes
+Fraklip.js
+cons.js
