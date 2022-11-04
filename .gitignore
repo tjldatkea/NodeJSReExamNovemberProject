@@ -5,5 +5,5 @@ node_modules
 *.env
 
 # My notes
-Fraklip.js
-cons.js
+./Fraklip.js
+./cons.js
