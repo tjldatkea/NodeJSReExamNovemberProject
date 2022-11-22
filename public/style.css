@@ -1,0 +1,187 @@
+/* .intro {
+  background-color: yellow;
+} */
+
+
+body {
+  margin: auto;
+  margin-top: 1rem;
+  width: 95%;
+  border: 3px solid darkgray;
+  padding: 10px;
+  background-color: rgb(93, 109, 126);
+  /*lightslategray;*/
+  font-size: 200%;
+}
+
+
+#center {
+  margin: auto;
+  width: 60%;
+
+  padding: 10px;
+  text-align: center;
+}
+
+.nameTd {
+  width: 50%;
+}
+
+.changeGroupButton {
+  margin: 1em;
+  padding: 1em;
+}
+
+.groupColorNumber1 {
+  background-color: #ef2917 !important;
+}
+
+h3.textColorNumber1 {
+  color: #ef2917 !important;
+}
+
+.groupColorNumber2 {
+  background-color: #ef8a17 !important;
+}
+
+h3.textColorNumber2 {
+  color: #ef8a17 !important;
+}
+
+.groupColorNumber3 {
+  background-color: #c6c013 !important;
+}
+
+h3.textColorNumber3 {
+  color: #c6c013 !important;
+}
+
+.groupColorNumber4 {
+  background-color: #008148 !important;
+}
+
+h3.textColorNumber4 {
+  color: #008148 !important;
+}
+
+.groupColorNumber5 {
+  background-color: #034732 !important;
+}
+
+h3.textColorNumber5 {
+  color: #034732 !important;
+}
+
+
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  /* //width: 50%;
+  //height: 50%; */
+}
+
+td,
+th {
+  border: 1px solid darkgray;
+  /*#dddddd;*/
+  text-align: center;
+  /* //padding: 8px;
+  //height: 24px; */
+  width: 30%;
+  background-color: lightslategray;
+}
+
+
+
+/* Bruges denne??? */
+.btn-success {
+  background-color: #ade8f4;
+  color: black;
+
+  height: 4em;
+  /* var 3 */
+  width: 9em;
+  /* var 6 */
+  /*font-size: 100%*/
+}
+
+
+/* Er de her overflødige, da jeg vist har lavet dem to gange med forskellige navne */
+/* #button0 {
+  background-color: #ef2917;
+}
+
+#button1 {
+  background-color: #ef8a17;
+}
+
+#button2 {
+  background-color: #c6c013;
+}
+
+#button3 {
+  background-color: #008148;
+}
+
+#button4 {
+  background-color: #034732;
+}
+
+#table-headline0 {
+  color: #ef2917;
+}
+
+#table-headline1 {
+  color: #ef8a17;
+}
+
+#table-headline2 {
+  color: #c6c013;
+}
+
+#table-headline3 {
+  color: #008148;
+}
+
+
+#table-headline4 {
+  color: #034732;
+} */
+
+
+/* bruges denne???? */
+.addedItemsTd {
+  background-color: lightslategray;
+  /* rgb(93, 109, 126); */
+}
+
+/* #inputTd {
+  color: limegreen;
+} */
+
+
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+  border-radius: 5px;
+}
+
+
+
+/* Hvad er det nu den her gør??? */
+* {
+  box-sizing: border-box;
+}

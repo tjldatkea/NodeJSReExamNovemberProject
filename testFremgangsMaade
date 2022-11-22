@@ -1,0 +1,38 @@
+Tjek at siden vises
+
+
+Prøv at logge ind med jens@mail.dk
+
+se at den går ind på /home
+
+gå til /
+
+log ud
+
+
+Prøv at oprette ny bruger, som ikke eksisterer i databasen
+
+se at den går ind på /home
+
+gå til /
+
+log ud
+
+
+log ind med den nye bruger
+
+se at den går ind på /home
+
+gå til /
+
+log ud
+
+
+Prøv at oprette en bruger, som findes i db
+
+se at den går tilbage til /register
+
+
+Prøv at logge ind med en bruger som ikke findes i db
+
+se at den går tilbage til /login
