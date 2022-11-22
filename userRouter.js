@@ -6,7 +6,7 @@ const router = express.Router()
 
 const userFunctions = require('./userFunctions.js')
 
-const { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase} = userFunctions
+const { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase } = userFunctions
 
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId) {
@@ -28,13 +28,8 @@ const redirectHome = (req, res, next) => {
 
 
 router.get('/', async (req, res) => {
-    console.log('/')  // Brug Morgen tiny
-    console.log(req.session)
-
     const { userId } = req.session
     const { user } = req.session
-    
-    console.log("userId: " + userId)
 
     let HTMLTekst = ''
     HTMLTekst += userId ?
@@ -53,12 +48,43 @@ router.get('/', async (req, res) => {
     res.send(HTMLTekst)
 })
 
+
+
+
+
+// skal til songsRouter, når den virker eller i mongodb eller en sqlite db
+let songs = [
+    `,,
+    C  D  E  C    C  D  E  C    E  F  G    E  F  G    G  A  G  F  E  C 
+    `,
+    `,,
+B  ^C  ^D  ^E  -  -   ^D  ^E  ^A  ^G  ^E  ^D  ^C  A  -  -  ^C  ^E  ^F  ^G  -  -  ^A  ^G  ^E  ^C  ^E  ^D  -  -  -  -  B  ^C  ^D  ^E  -  -  ^D  ^E  ^A  ^G  ^E  ^D  ^C  A  -  -  B  ^C  ^D  ^E  -  -  ^F  ^E  ^D  ^C  ^D  ^C  
+`,
+    `
+          ,        
+G - A G   E    G - A G    E,
+^D  ^D   B   ^C  ^C   G,
+A   A  ^C - B A    G - A G   E,
+A - A  ^C - B A    G - A G   E,
+^D  ^D   ^F - ^D - B    ^C - ^E,
+^C - G    E    G - F - D      C
+`
+]
+
+
+router.get('/nodes/:songNumber', async (req, res) => {
+    res.send(songs[req.params.songNumber])
+})
+
+
+
+
 router.get('/home', redirectLogin, (req, res) => {
     console.log("Get /home")
-    
+
     const { userId } = req.session
     const { user } = req.session
-    
+
     res.send(`
     <h1>Home</h1>
     <a href="/">Main</a>
@@ -105,13 +131,13 @@ router.get('/register', redirectHome, (req, res) => {
 
 router.post('/login', async (req, res) => {
     console.log('login post')
-    const { email, password } = req.body 
+    const { email, password } = req.body
 
     if (email && password) {  // skal der foretages yderligere validering her??? ****
         // Med denne fremgangsmåde hentes alle brugere fra databasen og herefter ledes efter en bruger med den pågældende mail og pw
         // Det er nok bedre at kigge efter i data basen om der er en bruger med den rette mail
         const users = await User.find()
-    
+
         const user = users.find(
             user => user.email === email && bcrypt.compareSync(password, user.hashedPassword) // (user entered plaintext pw from login form, hashedpw from 'db') <- bemærk rækkefølgen
         )
@@ -135,7 +161,7 @@ router.post('/register', async (req, res) => {
     const { name, email, password } = req.body
 
     if (name && email && password) { // ordentlig validering
-        
+
         const exists = await doesEmailExistInUserDatabase(User, email)
 
         if (!(exists)) {

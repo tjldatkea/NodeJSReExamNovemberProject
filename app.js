@@ -17,6 +17,7 @@ const helmet = require("helmet")
 const morgan = require('morgan')
 const path = require('path')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 const userFunctions = require('./userFunctions.js')
 const userRouter = require('./userRouter.js')
@@ -26,11 +27,12 @@ const itemRouter = require('./itemRouter.js')
 
 const app = express()
 
-const {address} = require('./util.js')
+const { address } = require('./util.js')
 
 // de her er både her og i itemRouter, kan de sættes i en middleware
 
-app.use(helmet());
+app.use(helmet())
+app.use(cors())
 app.use(express.json())
 app.use(morgan('tiny'))
 
@@ -44,19 +46,19 @@ app.use(function (req, res, next) {
 // parse form data
 //app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.urlencoded({
-    extended: true
+  extended: true
 }))
 app.use(express.static(path.join(__dirname, 'public')))
 
-const { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase} = userFunctions
+const { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase } = userFunctions
 
 const { createItemMongooseModel, createItem, getItems, updateItem, removeManyItems, removeOneItem, makeFormForButtonToChangeItemsGroup } = itemFunctions
 
 const {
-    NODE_ENV,
-    SESS_NAME,
-    SESS_SECRET,
-    SESS_LIFETIME
+  NODE_ENV,
+  SESS_NAME,
+  SESS_SECRET,
+  SESS_LIFETIME
 } = process.env
 
 const PORT = (process.env.PORT || 8080)
@@ -72,7 +74,7 @@ mongoose.connect(uri)
     console.error(err)
     console.log('Could not connect to database')
     console.log(err)
-  })  
+  })
 
 const IN_PROD = NODE_ENV === 'production'
 
@@ -81,16 +83,16 @@ let User = createUserMongooseModel(mongoose) // Bør denne sendes rundt mellem f
 let Item = createItemMongooseModel(mongoose)
 
 app.use(session({
-    name: SESS_NAME,
-    resave: false,
-    saveUninitialized: false,
-    secret: SESS_SECRET,
-    cookie: {
-        //originalMaxAge: process.env.SESS_LIFETIME, // måske som _expires i stedet for
-        //maxAge: process.env.SESS_LIFETIME, // uden en max age bliver det til en session cookie, der slettes, når browseren lukkes
-        sameSite: true, // 2 andre muligheder, deriblandt false, måske relevant ift CSP eller CORS
-        secure: IN_PROD
-    }
+  name: SESS_NAME,
+  resave: false,
+  saveUninitialized: false,
+  secret: SESS_SECRET,
+  cookie: {
+    //originalMaxAge: process.env.SESS_LIFETIME, // måske som _expires i stedet for
+    //maxAge: process.env.SESS_LIFETIME, // uden en max age bliver det til en session cookie, der slettes, når browseren lukkes
+    sameSite: true, // 2 andre muligheder, deriblandt false, måske relevant ift CSP eller CORS
+    secure: IN_PROD
+  }
 }))
 
 app.use(userRouter)
@@ -98,5 +100,5 @@ app.use(userRouter)
 app.use(itemRouter)
 
 app.listen(PORT, () => {
-    console.log(`Server listening at port ${PORT}`)
+  console.log(`Server listening at port ${PORT}`)
 })
