@@ -10,7 +10,7 @@ const userFunctions = require('./userFunctions.js')
 
 const { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase } = userFunctions
 
-const { putItInHTMLTemplate } = require('./util.js')
+const { address, putItInHTMLTemplate } = require('./util.js')
 
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId) {
@@ -38,78 +38,65 @@ router.get('/', async (req, res) => {
     let HTMLText = ''
     HTMLText += userId ?
         `
-    <h1>Welcome ${user.name}</h1>
-    <span class='button'><a href="/home">Profile</a></span><br><br>
-    <span class='button'><a href="/table">Shopping List</a></span><br><br>
+    <h2>Hej ${user.name}</h2>
+    <span class='button'><a href="/home">Profil</a></span><br><br>
+    <span class='button'><a href="/table">Indkøbslisten</a></span><br><br>
     <form method="post" action="/logout">
-        <button>Logout</button>
+        <button>Log ud</button>
     </form>
     ` : `
-    <h1>Welcome </h1>
-    <span class='button'><a href="/login">Login</a></span>
-    <span class='button'><a href="/register">Register</a></span>
+    <h2>Velkommen til indkøbslisten</h2>
+    <span class='button'><a href="/login">Log ind</a></span>
+    <span class='button'><a href="/register">Opret bruger</a></span>
     `
     HTMLText = `<center>${HTMLText}</center>`
     res.send(putItInHTMLTemplate(HTMLText))
 })
 
 
-
-
-
-// skal til songsRouter, når den virker eller i mongodb eller en sqlite db
-let songs = [
-    `,,
-    C  D  E  C    C  D  E  C    E  F  G    E  F  G    G  A  G  F  E  C 
-    `,
-    `,,
-B  ^C  ^D  ^E  -  -   ^D  ^E  ^A  ^G  ^E  ^D  ^C  A  -  -  ^C  ^E  ^F  ^G  -  -  ^A  ^G  ^E  ^C  ^E  ^D  -  -  -  -  B  ^C  ^D  ^E  -  -  ^D  ^E  ^A  ^G  ^E  ^D  ^C  A  -  -  B  ^C  ^D  ^E  -  -  ^F  ^E  ^D  ^C  ^D  ^C  
-`,
-    `
-          ,        
-G - A G   E    G - A G    E,
-^D  ^D   B   ^C  ^C   G,
-A   A  ^C - B A    G - A G   E,
-A - A  ^C - B A    G - A G   E,
-^D  ^D   ^F - ^D - B    ^C - ^E,
-^C - G    E    G - F - D      C
-`
-]
-
-
-router.get('/nodes/:songNumber', async (req, res) => {
-    res.send(songs[req.params.songNumber])
-})
-
 // Profil eller profile i stedet for home
 router.get('/home', redirectLogin, (req, res) => {
 
     const { userId } = req.session
     const { user } = req.session
+    console.log(userId)
+    console.log(user.id)  //undefined
 
-    let HTMLText = `<h1>Profil</h1>
+    let HTMLText = `<h2>Profil</h2>
     <span class='button'><a href="/">Hjem</a></span>
     <ul>
         <li>Navn: ${user.name}</li>
         <li>Email: ${user.email}</li>
     </ul>
-    `
+
+    <form action="${address}removeUser/${userId}" method="POST"> 
+    
+    <input type="submit" value="Slet">
+    </form>`
+
+    //<input type="text" id="itemId" name="itemId" style="display:none;" value=" ">// her mellem gåseøjenene skal value med id'et være
+
     res.send(putItInHTMLTemplate(HTMLText)
     )
 })
 
 
+router.post('/removeUser/:id', async (req, res) => {
+    const removedUser = await removeOneUser(User, req.body.id)
+    res.redirect('/logout')
+    //res.send(removedUser)
+})
 
 
 router.get('/login', redirectHome, (req, res) => {
     let HTMLText = `
-    <h1>Login</h1>
+    <h2>Log ind</h2>
     <form method="post" action='/login'>
         <input type='email' name='email' placeholder='Email' required></input>
         <input type='password' name='password' placeholder="Password" required></input>
-        <input type='submit' value='Login'></input>
+        <input type='submit' value='Log ind'></input>
     </form>
-    <a href='/register'>Register</a>
+    <a href='/register'>Opret bruger</a>
     `
 
     HTMLText = putItInHTMLTemplate(HTMLText)
@@ -117,16 +104,17 @@ router.get('/login', redirectHome, (req, res) => {
     res.send(HTMLText)
 })
 
+
 router.get('/register', redirectHome, (req, res) => {
     let HTMLText = `
-    <h1>Register</h1>
+    <h2>Opret bruger</h2>
     <form method="post" action='/register'>
         <input type='text' name='name' placeholder='Navn' required></input>
         <input type='email' name='email' placeholder='Email' required></input>
         <input type='password' name='password' placeholder="Password" required></input>
-        <input type='submit' value='Register'></input>
+        <input type='submit' value='Opret Bruger'></input>
     </form>
-    <a href='/login'>Login</a>
+    <a href='/login'>Log ind</a>
     `
     HTMLText = putItInHTMLTemplate(HTMLText)
 
@@ -150,7 +138,7 @@ router.post('/login', async (req, res) => {
             req.session.userId = user.id
             req.session.user = user
 
-            return res.redirect('/home')
+            return res.redirect('/')
         }
 
     }
@@ -180,12 +168,10 @@ router.post('/register', async (req, res) => {
             .max(50)
             .required()
 
-        //repeat_password: Joi.ref('password'),
-
     })
         .with('name', 'password')
     // .with('name', 'email', 'password') 
-    //.with('password', 'repeat_password')
+
 
     const result = schema.validate(req.body)
     console.log(result)
@@ -226,9 +212,9 @@ router.post('/register', async (req, res) => {
 router.post('/logout', redirectLogin, (req, res) => {
     req.session.destroy(error => {
         if (error) {
-            return res.redirect('/home') // eller main, hvad er der præcis der er sket hvis session ikke kan slettes??? ***
+            return res.redirect('/home')
         }
-        res.clearCookie(process.env.SESS_NAME) // skal det være sådan her mht SESS_NAME ???
+        res.clearCookie(process.env.SESS_NAME)
         res.redirect('/login')
     })
 })
@@ -237,9 +223,9 @@ router.post('/logout', redirectLogin, (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.destroy(error => {
         if (error) {
-            return res.redirect('/home') // eller main, hvad er der præcis der er sket hvis session ikke kan slettes??? ***
+            return res.redirect('/home')
         }
-        res.clearCookie(process.env.SESS_NAME) // skal det være sådan her mht SESS_NAME ???
+        res.clearCookie(process.env.SESS_NAME)
         res.redirect('/login')
     })
 })

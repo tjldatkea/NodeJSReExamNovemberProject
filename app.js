@@ -13,10 +13,11 @@ const userRouter = require('./userRouter.js')
 
 const itemFunctions = require('./itemFunctions.js')
 const itemRouter = require('./itemRouter.js')
+const songRouter = require('./songRouter.js')
 
 const app = express()
 
-const { address } = require('./util.js')
+const { address, putItInHTMLTemplate } = require('./util.js')
 
 app.use(helmet())
 app.use(cors())
@@ -61,7 +62,7 @@ mongoose.connect(uri)
 const IN_PROD = NODE_ENV === 'production'
 
 // create-User/Item-MongooseModel() er nød til at være der, så modellen er indlæst inden resten af funktionerne kan bruges    
-let User = createUserMongooseModel(mongoose) 
+let User = createUserMongooseModel(mongoose)
 let Item = createItemMongooseModel(mongoose)
 
 app.use(session({
@@ -79,6 +80,15 @@ app.use(session({
 app.use(userRouter)
 
 app.use(itemRouter)
+
+app.use(songRouter)
+
+
+app.all('*', (req, res) => {
+  let HTMLText = '<h2>Siden kunne desværre ikke findes</h2><span class="button"><a href="/">Hjem</a></span>'
+
+  res.status(404).send(putItInHTMLTemplate(HTMLText))
+})
 
 app.listen(PORT, () => {
   console.log(`Server listening at port ${PORT}`)

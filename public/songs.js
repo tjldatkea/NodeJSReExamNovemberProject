@@ -8,7 +8,6 @@ async function getSongs() {
 
     const body = document.body
 
-    // brug map i stedet for for løkke
 
     for (let i = 0; i < songs.length; i++) {
       const element = songs[i]
@@ -33,9 +32,6 @@ async function getSongs() {
       body.append(div)
 
     }
-
-    // hvordan kan innerHTML undgås uden at lave det til SSR, måske med en template engine
-    //document.getElementById('contentDiv').innerHTML = HTMLTekst
 
   })
 

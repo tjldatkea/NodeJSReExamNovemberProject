@@ -14,7 +14,7 @@ function putItInHTMLTemplate(it) {
 
     <meta charset="utf-8" />
     <meta name="wievport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Node Shop List</title>
 
     <style></style>
 </head>

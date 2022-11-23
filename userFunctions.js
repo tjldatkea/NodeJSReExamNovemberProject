@@ -1,9 +1,7 @@
 // Functions related to Users
 
-//const mongoose = require('mongoose') // er det tilstrækkeligt at sende mongoose med eller er der brug for denne linie??? -***
-
 let haveRunOnce = false
-// Det her skal muligvis i sin egen model class eller noget i den stil *****
+
 function createUserMongooseModel(mongoose) {
     if (!(haveRunOnce)) {
         const userSchema = new mongoose.Schema({
@@ -16,12 +14,7 @@ function createUserMongooseModel(mongoose) {
         // class
         User = mongoose.model('User', userSchema)
 
-        console.log('User(mongoose.model): ')
-        console.log(User)
-
         haveRunOnce = true
-
-        console.log('I have run once')
 
         return User
     }
@@ -38,47 +31,45 @@ async function createUser(User, nameParam, emailParam, hashedPasswordParam) {
     })
 
     const userWithId = await user.save()
-    console.log("user: " + userWithId)
 
     return userWithId
-
-} // slut på createUser funktionen
+}
 
 
 async function getUsers(User) {
-
-  const users = await User.find() 
-  return users
+    const users = await User.find()
+    return users
 }
 
 
-// utestet og skal argumentet være email eller skal andet med? ****
-// Måske skal denne funktionalitet klares med flere seperate funktioner:
-// findUserByEmail(email)
-// changeUsersMail(oldEmail/user, newEmail)
-// changeUsersPassword()
-// changeUsersName()
-async function updateUser(User, oldEmail) {
-    //const user = await User.findByIdAndUpdate(id, {
-    const user = await User.findByIdAndUpdate(oldEmail, {  
-        $set: {
-        //name: name,
-        //email: email, **** der skal tjekkes at en evt ny email ikke allerede er brugt
-        //hashedPassword: **** her skal enten genereres et nyt password eller også skal det gøres i en seperat funktion
-        // husk komma'er
-        }
-    }, { new: true }) // <-- uden den sidste får man kurset inden det blev ændret
+// Funktionen virker, men bruges ikke endnu
+async function updateUser(User, oldEmail, newName, newEmail) {
+    const result = await User.find({ email: oldEmail })
 
-  console.log("updated item: " + user)
+    const user = result[0] // da der kun skulle være en bruger med netop den mail
 
-  return user // return updated user
+    const newEmailAlreadyInDb = await doesEmailExistInUserDatabase(User, newEmail)
+
+    if (!(newEmailAlreadyInDb)) {
+        const updatedUser = await User.findByIdAndUpdate(user.id, {
+            $set: {
+                name: newName,
+                email: newEmail
+            }
+        }, { new: true })
+
+        return updatedUser
+    }
+    else {
+        return
+    }
 }
 
-// utestet ****  skal det være id eller email
+// Virker, men bruges ikke endnu
 async function removeOneUser(User, id) {
     const user = await User.findByIdAndRemove(id)
-
-    return user // hvad returnerer den??? ***
+    console.log(user)
+    return user
 }
 
 async function findUserIdByEmail(User, email) {
@@ -97,12 +88,12 @@ async function findUser(User, email) {
 }
 
 async function doesEmailExistInUserDatabase(User, email) {
-    
+
     // to do: nøjes med at tjekke i database fremfor at hente alle brugere
-    
+
     const users = await User.find()
 
-    const exists = users.some(  
+    const exists = users.some(
         user => user.email === email
     )
 
@@ -110,4 +101,4 @@ async function doesEmailExistInUserDatabase(User, email) {
 }
 
 
-module.exports = {createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase}
+module.exports = { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase }
