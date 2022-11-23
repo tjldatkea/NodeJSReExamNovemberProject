@@ -1,13 +1,11 @@
-// skoletimer fredag + 5,5
-
 const express = require("express")
 const bcrypt = require('bcryptjs')
+
 const router = express.Router()
 
 const itemFunctions = require('./itemFunctions.js')
-const {createItemMongooseModel, createItem, getItems, updateItem, removeManyItems, removeOneItem, makeFormForButtonToChangeItemsGroup} = itemFunctions
-
-const {address} = require('./util.js')
+const { createItemMongooseModel, createItem, getItems, updateItem, removeManyItems, removeOneItem, makeFormForButtonToChangeItemsGroup } = itemFunctions
+const { address, putItInHTMLTemplate } = require('./util.js')
 
 const groupNames = ["Mangler", "Måske", "I kurv", "Lager", "Papirkurv"]
 
@@ -16,20 +14,21 @@ const numberOfGroups = groupNames.length // find ud af hvor mange der skal være
 // Både i denne og i userRouter!!!
 const redirectLogin = (req, res, next) => {
   if (!req.session.userId) {
-      res.redirect('/login')
+    res.redirect('/login')
   }
   else {
-      next()
+    next()
   }
 }
 
 router.get('/shopList', (req, res) => {
-    res.send('<h1>Welcome to shopListServer</h1><a href="/table">Gå til listen</a>')
-  })
-  
+  res.send('<h1>Welcome to shopListServer</h1><a href="/table">Gå til listen</a>')
+})
+
 router.get('/deleteGroup/:groupNumber', (req, res) => {
   removeManyItems(Item, req.params.groupNumber)
-  res.send(`<h1>Group number ${req.params.groupNumber} deleted</h1><a href="/table">Gå til listen</a>`)
+
+  res.redirect('/table')
 })
 
 // router.get('/deleteItem/:itemId', (req, res) => {
@@ -127,7 +126,7 @@ router.get('/table', redirectLogin, async (req, res) => {
       HTMLTableRow += "<td><table><tr>"
       for (let k = 1; k <= numberOfGroups; k++) {
         if (k != element.group) {
-          HTMLTableRow += `<td>${makeFormForButtonToChangeItemsGroup(element.id, /*element.itemName, element.group,*/ "updateItem", k, address, groupNames)}</td>`
+          HTMLTableRow += `<td>${makeFormForButtonToChangeItemsGroup(element.id, "updateItem", k, address, groupNames)}</td>`
         }
       }
       HTMLTableRow += "</tr></table></td>"

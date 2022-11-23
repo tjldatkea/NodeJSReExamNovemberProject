@@ -2,11 +2,15 @@
 
 const express = require("express")
 const bcrypt = require('bcryptjs')
+const Joi = require('joi')
+
 const router = express.Router()
 
 const userFunctions = require('./userFunctions.js')
 
 const { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase } = userFunctions
+
+const { putItInHTMLTemplate } = require('./util.js')
 
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId) {
@@ -26,26 +30,27 @@ const redirectHome = (req, res, next) => {
     }
 }
 
-
+// Hjem
 router.get('/', async (req, res) => {
     const { userId } = req.session
     const { user } = req.session
 
-    let HTMLTekst = ''
-    HTMLTekst += userId ?
+    let HTMLText = ''
+    HTMLText += userId ?
         `
     <h1>Welcome ${user.name}</h1>
-    <a href="/home">Home</a>
+    <span class='button'><a href="/home">Profile</a></span><br><br>
+    <span class='button'><a href="/table">Shopping List</a></span><br><br>
     <form method="post" action="/logout">
         <button>Logout</button>
     </form>
     ` : `
     <h1>Welcome </h1>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
+    <span class='button'><a href="/login">Login</a></span>
+    <span class='button'><a href="/register">Register</a></span>
     `
-
-    res.send(HTMLTekst)
+    HTMLText = `<center>${HTMLText}</center>`
+    res.send(putItInHTMLTemplate(HTMLText))
 })
 
 
@@ -76,32 +81,28 @@ router.get('/nodes/:songNumber', async (req, res) => {
     res.send(songs[req.params.songNumber])
 })
 
-
-
-
+// Profil eller profile i stedet for home
 router.get('/home', redirectLogin, (req, res) => {
-    console.log("Get /home")
 
     const { userId } = req.session
     const { user } = req.session
 
-    res.send(`
-    <h1>Home</h1>
-    <a href="/">Main</a>
+    let HTMLText = `<h1>Profil</h1>
+    <span class='button'><a href="/">Hjem</a></span>
     <ul>
-        <li>Name: ${user.name}</li>
+        <li>Navn: ${user.name}</li>
         <li>Email: ${user.email}</li>
     </ul>
-    `)
+    `
+    res.send(putItInHTMLTemplate(HTMLText)
+    )
 })
 
-// router.get('/profile', (req, res) => {
-//     const { user } = res.locals
-// })
+
 
 
 router.get('/login', redirectHome, (req, res) => {
-    res.send(`
+    let HTMLText = `
     <h1>Login</h1>
     <form method="post" action='/login'>
         <input type='email' name='email' placeholder='Email' required></input>
@@ -110,30 +111,33 @@ router.get('/login', redirectHome, (req, res) => {
     </form>
     <a href='/register'>Register</a>
     `
-    )
+
+    HTMLText = putItInHTMLTemplate(HTMLText)
+
+    res.send(HTMLText)
 })
 
 router.get('/register', redirectHome, (req, res) => {
-    res.send(`
+    let HTMLText = `
     <h1>Register</h1>
     <form method="post" action='/register'>
-        <input type='text' name='name' placeholder='Name' required></input>
+        <input type='text' name='name' placeholder='Navn' required></input>
         <input type='email' name='email' placeholder='Email' required></input>
         <input type='password' name='password' placeholder="Password" required></input>
-        <input type="datetime-local">
         <input type='submit' value='Register'></input>
     </form>
     <a href='/login'>Login</a>
     `
-    )
+    HTMLText = putItInHTMLTemplate(HTMLText)
+
+    res.send(HTMLText)
 })
 
 
 router.post('/login', async (req, res) => {
-    console.log('login post')
     const { email, password } = req.body
 
-    if (email && password) {  // skal der foretages yderligere validering her??? ****
+    if (email && password) {
         // Med denne fremgangsmåde hentes alle brugere fra databasen og herefter ledes efter en bruger med den pågældende mail og pw
         // Det er nok bedre at kigge efter i data basen om der er en bruger med den rette mail
         const users = await User.find()
@@ -157,16 +161,47 @@ router.post('/login', async (req, res) => {
 // husk snabelA i mailen ellers kommer den ikke videre fra register og den giver ingen besked herom
 // email valideringen accepterer heller ikke æ,ø og å
 router.post('/register', async (req, res) => {
-    console.log('register post')
     const { name, email, password } = req.body
 
-    if (name && email && password) { // ordentlig validering
+    const schema = Joi.object({
+        name: Joi.string()
+            .alphanum()
+            .min(1)
+            .max(50)
+            .required(),
 
+        email: Joi.string()
+            .required(),
+        //     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'dk'] } }),
+
+
+        password: Joi.string()
+            .min(1)
+            .max(50)
+            .required()
+
+        //repeat_password: Joi.ref('password'),
+
+    })
+        .with('name', 'password')
+    // .with('name', 'email', 'password') 
+    //.with('password', 'repeat_password')
+
+    const result = schema.validate(req.body)
+    console.log(result)
+
+
+    if (result.error) {
+        let HTMLText = putItInHTMLTemplate(`<p>${result.error.details[0].message}</p><a href="/register">Go back</a>`)
+        res.status(400).send(HTMLText)
+        return
+    }
+    else if (name && email && password) {
         const exists = await doesEmailExistInUserDatabase(User, email)
 
         if (!(exists)) {
 
-            let salt = bcrypt.genSaltSync(10) // skal denne kaldes hver gang???
+            let salt = bcrypt.genSaltSync(10)
             let hash = bcrypt.hashSync(password, salt)
 
             const user = {
@@ -198,7 +233,7 @@ router.post('/logout', redirectLogin, (req, res) => {
     })
 })
 
-// midlertidig for at kunne logge ud med et endpoint
+// for at kunne logge ud med et endpoint
 router.get('/logout', (req, res) => {
     req.session.destroy(error => {
         if (error) {
