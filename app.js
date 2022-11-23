@@ -34,7 +34,7 @@ app.use(function (req, res, next) {
 // parse form data
 app.use(express.urlencoded({ extended: true }))
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static("public"))
 
 const { createUserMongooseModel, createUser, getUsers, updateUser, removeOneUser, findUserIdByEmail, findUser, doesEmailExistInUserDatabase } = userFunctions
 const { createItemMongooseModel, createItem, getItems, updateItem, removeManyItems, removeOneItem, makeFormForButtonToChangeItemsGroup } = itemFunctions
@@ -84,12 +84,33 @@ app.use(itemRouter)
 app.use(songRouter)
 
 
+// Forsøg på chat med socket.io
+const http = require('http')
+const server = http.createServer(app)
+
+const { Server } = require("socket.io")
+
+const io = new Server(server)
+
+io.on("connection", (socket) => {
+
+  socket.on("a client wrote some text", ({ data }) => {
+
+    io.emit("write the text to all clients", { data })
+  })
+
+})
+
+app.get("/chat", (req, res) => {
+  res.sendFile(path.resolve("./public/chat.html"))
+})
+
 app.all('*', (req, res) => {
   let HTMLText = '<h2>Siden kunne desværre ikke findes</h2><span class="button"><a href="/">Hjem</a></span>'
 
   res.status(404).send(putItInHTMLTemplate(HTMLText))
 })
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server listening at port ${PORT}`)
 })
